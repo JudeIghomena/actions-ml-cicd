@@ -1,0 +1,25 @@
+name: 'MLflow Model Registration'
+description: 'Registers a trained ML model to MLflow and sets the model stage.'
+inputs:
+  mlflow_tracking_uri:
+    description: 'MLflow Tracking URI'
+    required: true
+  model_name:
+    description: 'Name of the MLflow model'
+    required: true
+  model_path:
+    description: 'Path to the trained model directory'
+    required: true
+  stage:
+    description: 'Stage to transition the model to (None, Staging, Production)'
+    required: false
+    default: ''
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    MLFLOW_TRACKING_URI: ${{ inputs.mlflow_tracking_uri }}
+    MODEL_NAME: ${{ inputs.model_name }}
+    MODEL_PATH: ${{ inputs.model_path }}
+    STAGE: ${{ inputs.stage }}
